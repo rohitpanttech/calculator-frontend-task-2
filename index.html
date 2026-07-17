@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A highly responsive, premium glassmorphic calculator with history, theme switching, and sound feedback. Built with HTML, CSS, and Vanilla JavaScript.">
+    <title>Quantum Calc | Premium Glassmorphic Calculator</title>
+    <!-- Google Fonts - Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+    <div class="calculator-app">
+        <!-- Interactive background glow effects -->
+        <div class="glow-bg glow-1"></div>
+        <div class="glow-bg glow-2"></div>
+
+        <main class="calculator-card" role="region" aria-label="Calculator">
+            <!-- Header Controls -->
+            <header class="calculator-header">
+                <div class="logo">
+                    <span class="logo-accent">Q</span>uantum
+                </div>
+                <div class="header-controls">
+                    <!-- Audio Feedback Toggle -->
+                    <button id="soundToggle" class="control-btn" aria-label="Toggle sound feedback" title="Toggle click sound">
+                        <svg class="icon sound-on-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                        </svg>
+                        <svg class="icon sound-off-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                            <line x1="23" y1="9" x2="17" y2="15"></line>
+                            <line x1="17" y1="9" x2="23" y2="15"></line>
+                        </svg>
+                    </button>
+                    <!-- Theme Switcher -->
+                    <button id="themeToggle" class="control-btn" aria-label="Switch to light theme" title="Switch theme">
+                        <svg class="icon moon-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                        <svg class="icon sun-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                    </button>
+                    <!-- History Drawer Toggle -->
+                    <button id="historyToggle" class="control-btn" aria-label="Open history panel" title="View calculation history">
+                        <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Calculator Display -->
+            <section class="calculator-display" aria-live="polite">
+                <!-- Expression display (shows calculation formula e.g. "120 + 45") -->
+                <div id="expressionDisplay" class="expression-screen" aria-label="Current expression"></div>
+                <!-- Primary display (shows active input or final result) -->
+                <div id="primaryDisplay" class="primary-screen" aria-label="Display screen">0</div>
+            </section>
+
+            <!-- Keypad Buttons -->
+            <section class="calculator-keypad" aria-label="Keypad">
+                <!-- Row 1 -->
+                <button type="button" class="btn btn-action" id="key-clear" data-action="clear" aria-label="Clear All">AC</button>
+                <button type="button" class="btn btn-action" id="key-backspace" data-action="backspace" aria-label="Delete last character">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path>
+                        <line x1="18" y1="9" x2="12" y2="15"></line>
+                        <line x1="12" y1="9" x2="18" y2="15"></line>
+                    </svg>
+                </button>
+                <button type="button" class="btn btn-action" id="key-percent" data-action="percent" aria-label="Percent">%</button>
+                <button type="button" class="btn btn-operator" id="key-divide" data-operator="/" aria-label="Divide">÷</button>
+
+                <!-- Row 2 -->
+                <button type="button" class="btn btn-num" id="key-7" data-number="7" aria-label="7">7</button>
+                <button type="button" class="btn btn-num" id="key-8" data-number="8" aria-label="8">8</button>
+                <button type="button" class="btn btn-num" id="key-9" data-number="9" aria-label="9">9</button>
+                <button type="button" class="btn btn-operator" id="key-multiply" data-operator="*" aria-label="Multiply">×</button>
+
+                <!-- Row 3 -->
+                <button type="button" class="btn btn-num" id="key-4" data-number="4" aria-label="4">4</button>
+                <button type="button" class="btn btn-num" id="key-5" data-number="5" aria-label="5">5</button>
+                <button type="button" class="btn btn-num" id="key-6" data-number="6" aria-label="6">6</button>
+                <button type="button" class="btn btn-operator" id="key-subtract" data-operator="-" aria-label="Subtract">−</button>
+
+                <!-- Row 4 -->
+                <button type="button" class="btn btn-num" id="key-1" data-number="1" aria-label="1">1</button>
+                <button type="button" class="btn btn-num" id="key-2" data-number="2" aria-label="2">2</button>
+                <button type="button" class="btn btn-num" id="key-3" data-number="3" aria-label="3">3</button>
+                <button type="button" class="btn btn-operator" id="key-add" data-operator="+" aria-label="Add">+</button>
+
+                <!-- Row 5 -->
+                <button type="button" class="btn btn-action" id="key-toggle-sign" data-action="toggle-sign" aria-label="Toggle Positive or Negative">+/-</button>
+                <button type="button" class="btn btn-num" id="key-0" data-number="0" aria-label="0">0</button>
+                <button type="button" class="btn btn-num" id="key-decimal" data-action="decimal" aria-label="Decimal point">.</button>
+                <button type="button" class="btn btn-equals" id="key-equals" data-action="equals" aria-label="Calculate Equals">=</button>
+            </section>
+        </main>
+
+        <!-- Collapsible History Sidebar -->
+        <aside id="historyPanel" class="history-panel" aria-hidden="true">
+            <div class="history-header">
+                <h3>History</h3>
+                <button id="closeHistory" class="control-btn" aria-label="Close history panel">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div id="historyList" class="history-list">
+                <!-- Dynamic calculation log entries go here -->
+                <div class="history-empty">No history yet</div>
+            </div>
+            <div class="history-footer">
+                <button id="clearHistoryBtn" class="clear-history-btn" aria-label="Clear calculation history">
+                    Clear History
+                </button>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Main JavaScript Logic -->
+    <script src="script.js"></script>
+</body>
+</html>
